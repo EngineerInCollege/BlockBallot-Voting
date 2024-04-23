@@ -8,7 +8,7 @@ import { useRouter } from "next/router"
 import Head from 'next/head';
 import { createThirdwebClient } from "thirdweb";
 import { ethers } from "ethers";
-import { useSigner, } from "@thirdweb-dev/react";
+import { useSigner, useAddress } from "@thirdweb-dev/react";
 import { BLOCK_BALLOT_CONTRACT_ADDRESS } from '@/pages/_app.js';
 import blockballotABI from "@/Contract/blockballot.json";
 import {
@@ -203,20 +203,18 @@ const LoginPage = () => {
   const router = useRouter();
   const signer = useSigner();
   const [admin, setAdmin] = useState(false);
-
+  const address = useAddress();
+ 
   useEffect(() => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
-    
+    console.log(admin);
     const checkIfAdmin = async () => {
-      await provider.send("eth_requestAccounts", []);
-      const signer = provider.getSigner()
       if(!signer) {return};
       const contract = new ethers.Contract(BLOCK_BALLOT_CONTRACT_ADDRESS, blockballotABI, signer);
       const isAdmin = await contract.giveAdmin();
       if (isAdmin) {setAdmin(true)};
     };
     checkIfAdmin();
-  }, []);
+  }, [signer]);
 
   return (
     <>
@@ -241,6 +239,7 @@ const LoginPage = () => {
           theme={"light"}
           connectModal={{ size: "wide" }}
         />
+        {admin && <LoginButton>Go to admin page</LoginButton>}
       </PrivateAndLoginContainer>
     </MainContainer>
     <Footer />
