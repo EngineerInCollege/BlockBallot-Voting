@@ -204,9 +204,10 @@ const LoginPage = () => {
   const signer = useSigner();
   const [admin, setAdmin] = useState(false);
   const address = useAddress();
- 
-  useEffect(() => {
-    console.log(admin);
+
+  useEffect(() => {    
+    console.log(signer);
+    console.log(address);
     const checkIfAdmin = async () => {
       if(!signer) {return};
       const contract = new ethers.Contract(BLOCK_BALLOT_CONTRACT_ADDRESS, blockballotABI, signer);

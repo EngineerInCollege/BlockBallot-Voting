@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@thirdweb-dev/react": "^4.6.6",
+    "@thirdweb-dev/react": "^4.6.7",
     "@thirdweb-dev/wallets": "^2.5.7",
     "express": "^4.19.2",
     "firebase": "^10.10.0",
