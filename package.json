@@ -1,0 +1,23 @@
+{
+  "name": "blockballot",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@thirdweb-dev/react": "^4.6.6",
+    "@thirdweb-dev/wallets": "^2.5.7",
+    "express": "^4.19.2",
+    "firebase": "^10.10.0",
+    "next": "^14.1.4",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-query": "^3.39.3",
+    "styled-components": "^6.1.8",
+    "thirdweb": "^5.10.0"
+  }
+}
