@@ -8,7 +8,6 @@ const theme = {
 
 const MainContainer = styled.div`
   font-family: 'Helvetica';
-  padding: 5vw;
 `
 
 const MainHeader = styled.h1`
@@ -40,9 +39,8 @@ const Container = styled.div`
   transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.02);
   }
-
 `;
 
 const ImageContainer = styled.div`
@@ -52,6 +50,7 @@ const ImageContainer = styled.div`
   background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 1) 100%), url(${props => props.imageUrl});
   background-size: cover;
   background-position: center;
+  overflow: hidden;
 `;
 
 const ShortDescription = styled.p`

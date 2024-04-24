@@ -6,6 +6,9 @@ import Candidates from "@/components/Candidates";
 import { COLORS } from "@/pages/_app.js";
 import Footer from "@/components/Footer";
 import { fetchRecentCandidates } from "@/firebase/firebaseConfig";
+import Popup from "@/components/Popup";
+import Confetti from 'react-confetti';
+import { redirect } from "next/dist/server/api-utils";
 
 const theme = {
   colors: COLORS
@@ -17,6 +20,8 @@ const ParentContainer = styled.div`
 `
 const VotingContainer = styled.div`
   padding: 5vw;
+  position: relative;
+  z-index: 1;
 `
 
 const Divider = styled.div`
@@ -60,11 +65,41 @@ const OverlayText = styled.div`
 const CandidatesContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
 `;
+
+const ConfettiContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+`
 
 const VotingPage = () => {
   const [user, setUser] = useState(null);
   const [candidates, setCandidates] = useState([]);
+  const [votingError, setVotingError] = useState(false);
+  const [votePassed, setVotePassed] = useState(false);
+  const [confettiPieces, setConfettiPieces] = useState(0);
+  const [popupVisible, setPopupVisible] = useState(false);
+
+  const handleVotingError = () => {
+    setVotingError(true);
+    setPopupVisible(true); // Show the popup in case of voting error
+  }
+
+  const handleClose = () => {
+    setVotingError(false);
+    setPopupVisible(false); // Close the popup
+    setConfettiPieces(0); 
+  }
+
+  const handleVoteSuccess = () => {
+    setVotePassed(true);
+    setConfettiPieces(200);
+    setPopupVisible(true); // Show the popup on successful vote
+  };
 
   useEffect(() => {
     const fetchCandidates = async () => {
@@ -86,7 +121,15 @@ const VotingPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ThemeProvider theme={theme}>
-      <Navbar user={user} setUser={setUser}/>
+      {votePassed && 
+        <ConfettiContainer>
+      <Confetti 
+          colors={["#FF474C", "#89CFF0"]}
+          numberOfPieces={confettiPieces}
+      />
+        </ConfettiContainer>
+      }
+      <Navbar/>
       <ParentContainer>
       <BackgroundImage>
           <OverlayText>
@@ -98,19 +141,20 @@ const VotingPage = () => {
         <Divider />
         <CandidatesContainer>
           {primaryCandidates.map(candidate => (
-            <Candidates candidate={candidate}/>
+            <Candidates candidate={candidate} onVoteError={handleVotingError} onVotePass={handleVoteSuccess}/>
           ))}
         </CandidatesContainer>
         <ElectionLabel>General Elections</ElectionLabel>
         <CandidatesContainer>
           {generalCandidates.map(candidate => (
-            <Candidates candidate={candidate}/>
+            <Candidates candidate={candidate} onVoteError={handleVotingError} onVotePass={handleVoteSuccess}/>
           ))}
         </CandidatesContainer>
         <Divider />
       </VotingContainer>
       <Footer></Footer>
       </ParentContainer>
+      {popupVisible && <Popup message={votingError ? "Voting failed. Please log in or vote for only one election." : "Your vote has successfully been recorded."} onClose={handleClose} />}
       </ThemeProvider>
     </>
   );

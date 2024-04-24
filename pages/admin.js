@@ -143,6 +143,7 @@ const AddCandidateButton = styled.button`
   border-radius: 1vw;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.3s;
+  overflow: hidden;
 
   &:hover {
     background-color: ${props => props.theme.colors.main};

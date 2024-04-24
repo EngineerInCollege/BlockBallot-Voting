@@ -13,9 +13,12 @@ import { metamaskWallet,
   coinbaseWallet, localWallet } from "@thirdweb-dev/react";
 import { BLOCK_BALLOT_CONTRACT_ADDRESS } from '@/pages/_app.js';
 import blockballotABI from "@/Contract/blockballot.json";
+import { lightTheme } from "@thirdweb-dev/react";
+
 import {
   ThirdwebProvider,
   ConnectButton,
+  ConnectEmbed,
 } from "thirdweb/react";
 import {
   createWallet,
@@ -112,6 +115,7 @@ const LoginButton = styled.button`
   border-radius: 1vw;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.3s;
+  overflow:hidden;
 
   &:hover {
     background-color: ${props => props.theme.colors.main};
@@ -134,6 +138,22 @@ const LoginButton = styled.button`
     width: 0;
   }
 `;
+
+const ConnectContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2vw;
+  flex-direction: column;
+  gap: .5vw;
+`
+
+const customTheme = lightTheme({
+  fontFamily: "Helvetica",
+  colors: {
+    modalBg: "white",
+  },
+});
 
 // const Login = () => {
 //   const [publicKey, setPublicKey] = useState('');
@@ -240,20 +260,17 @@ const LoginPage = () => {
      ]}
     >
     <ThemeProvider theme={theme}>
-    <Navbar user={user} setUser={setUser}/>
+    <Navbar/>
     <MainContainer>
       <PrivateAndLoginContainer>
         <Private />
         <Divider />
-        <LoginLabel>Please enter your public key below</LoginLabel>
-        <ConnectButton
-          client={client}
-          wallets={wallets}
-          theme={"light"}
-          connectModal={{ size: "compact" }}
-        />
-        {admin && <LoginButton onClick={() => handleRouting("admin")}>Go to admin page</LoginButton>}
-        {signer && <LoginButton onClick={() => handleRouting("voting")}>Go vote</LoginButton>}
+        <LoginLabel>Please connect to your wallet below</LoginLabel>
+        <ConnectContainer>
+         <ConnectEmbed client={client} wallets={wallets} theme={customTheme}/>
+        {admin && <LoginButton onClick={() => handleRouting("admin")}>Admin page</LoginButton>}
+        {signer && <LoginButton onClick={() => handleRouting("voting")}>Go vote!</LoginButton>}
+        </ConnectContainer>
       </PrivateAndLoginContainer>
     </MainContainer>
     <Footer />

@@ -23,7 +23,7 @@ const Divider = styled.div`
   height: .15vw;
   background-color: ${props => props.theme.colors.main};
   margin: 0 auto;
-  margin-top: 5vw;
+  margin-top: 3vw;
   margin-bottom: 3vw;
 `;
 
@@ -49,29 +49,13 @@ const OverlayText = styled.div`
   text-align: center;
 `;
 
-const MainContent = styled.div`
-  flex: 1;
-  padding: 1vw;
-`;
+const InfoContainer = styled.div`
+  padding-left: 10vw;
+  padding-right: 10vw;
+`
 
 export default function Home() {
   const [user, setUser] = useState(null);
-
-  // useEffect(() => {
-  //   // Listen for authentication state changes
-  //   const unsubscribe = auth.onAuthStateChanged((user) => {
-  //     if (user) {
-  //       // User is signed in
-  //       setUser(user);
-  //     } else {
-  //       // No user is signed in
-  //       setUser(null);
-  //     }
-  //   });
-
-  //   // Cleanup function to unsubscribe from the listener when the component unmounts
-  //   return () => unsubscribe();
-  // }, []); // Run only once when the component mounts
 
   return (
     <>
@@ -89,11 +73,13 @@ export default function Home() {
             Empowering Democracy, One Block at a Time.
           </OverlayText>
       </BackgroundImage>
-      <Divider></Divider>
-      <VotingInfo></VotingInfo>
-      <Divider></Divider>
-      <LoginToVote></LoginToVote>
-      <Footer></Footer>
+      <InfoContainer>
+      <Divider/>
+      <VotingInfo/>
+      <Divider/>
+      <LoginToVote/>
+      </InfoContainer>
+      <Footer/>
       </ParentContainer>
       </ThemeProvider>
     </>

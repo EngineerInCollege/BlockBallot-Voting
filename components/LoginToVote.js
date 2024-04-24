@@ -9,7 +9,7 @@ const theme = {
 
 const MainContainer = styled.div`
   font-family: 'Helvetica';
-  padding: 5vw;
+  padding-bottom: 5vw;
 `
 
 const MainHeader = styled.h1`

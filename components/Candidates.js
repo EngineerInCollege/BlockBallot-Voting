@@ -70,6 +70,7 @@ const Container = styled.div`
   padding: 1vw;
   border: .2vw solid ${props => props.theme.colors.feature};
   transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  overflow: hidden;
 
   &:hover {
     transform: scale(1.05);
@@ -84,6 +85,8 @@ const ImageContainer = styled.div`
   background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 1) 100%), url(${props => props.imageUrl});
   background-size: cover;
   background-position: center;
+  background-clip: border-box;
+  overflow: hidden;
 `;
 
 const VoteButton = styled.button`
@@ -98,11 +101,10 @@ const VoteButton = styled.button`
 
   &:hover {
     background-color: ${props => props.theme.colors.main};
-    transform: translateY(-2px);
   }
 `;
 
-const CandidatesComponent = ({candidate}) => {
+const CandidatesComponent = ({candidate, onVoteError, onVotePass}) => {
   const signer = useSigner();
 
   const handleVoting = async () => {
@@ -124,8 +126,9 @@ const signer = provider.getSigner()
   console.log(index);
   try {
     await contract.vote(electionType, index);
+    onVotePass();
   } catch {
-    console.log("test");
+    onVoteError();
   }
   }
 
