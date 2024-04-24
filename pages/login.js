@@ -9,6 +9,8 @@ import Head from 'next/head';
 import { createThirdwebClient } from "thirdweb";
 import { ethers } from "ethers";
 import { useSigner, useAddress } from "@thirdweb-dev/react";
+import { metamaskWallet, 
+  coinbaseWallet, localWallet } from "@thirdweb-dev/react";
 import { BLOCK_BALLOT_CONTRACT_ADDRESS } from '@/pages/_app.js';
 import blockballotABI from "@/Contract/blockballot.json";
 import {
@@ -203,12 +205,17 @@ const LoginPage = () => {
   const router = useRouter();
   const signer = useSigner();
   const [admin, setAdmin] = useState(false);
-  const address = useAddress();
+  const address = useAddress(); //?
+
+  const handleRouting = (location) => {
+        if (location === "admin") {router.push('admin');}
+        else if (location === "voting") {router.push('voting');}
+      };
 
   useEffect(() => {    
-    console.log(signer);
-    console.log(address);
     const checkIfAdmin = async () => {
+      console.log(signer);
+      console.log(address);
       if(!signer) {return};
       const contract = new ethers.Contract(BLOCK_BALLOT_CONTRACT_ADDRESS, blockballotABI, signer);
       const isAdmin = await contract.giveAdmin();
@@ -226,7 +233,12 @@ const LoginPage = () => {
       <link rel="icon" href="/favicon.ico" />
     </Head>
 
-    <ThirdwebProvider>
+    <ThirdwebProvider
+     activeChain="ethereum" clientId="46279898771d4e37ac4001efde13bd0f"
+     supportedWallets={[ metamaskWallet({ recommended: true }), coinbaseWallet(),walletConnect(),
+       localWallet(),
+     ]}
+    >
     <ThemeProvider theme={theme}>
     <Navbar user={user} setUser={setUser}/>
     <MainContainer>
@@ -238,9 +250,10 @@ const LoginPage = () => {
           client={client}
           wallets={wallets}
           theme={"light"}
-          connectModal={{ size: "wide" }}
+          connectModal={{ size: "compact" }}
         />
-        {admin && <LoginButton>Go to admin page</LoginButton>}
+        {admin && <LoginButton onClick={() => handleRouting("admin")}>Go to admin page</LoginButton>}
+        {signer && <LoginButton onClick={() => handleRouting("voting")}>Go vote</LoginButton>}
       </PrivateAndLoginContainer>
     </MainContainer>
     <Footer />

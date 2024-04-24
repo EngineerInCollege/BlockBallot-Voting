@@ -30,13 +30,14 @@ const Divider = styled.div`
 
 const ElectionLabel = styled.h1`
   color: ${props => props.theme.colors.main};
+  padding-top: 2vw;
   text-align: left;
   position: relative;
 `
 
 const BackgroundImage = styled.div`
   position: relative;
-  height: 20vw;
+  height: 22vw;
   background-image: url("/voting.jpeg");
   background-size: cover;
   background-position: center;
@@ -68,10 +69,8 @@ const VotingPage = () => {
   useEffect(() => {
     const fetchCandidates = async () => {
       const recentCandidates = await fetchRecentCandidates();
-      console.log(recentCandidates);
       setCandidates(recentCandidates);
     };
-
     fetchCandidates();
   }, []);
 

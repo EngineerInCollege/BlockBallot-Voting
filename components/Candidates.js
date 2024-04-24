@@ -1,6 +1,10 @@
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import { COLORS } from "@/pages/_app.js";
+import { useSigner } from "@thirdweb-dev/react";
+import { ethers } from "ethers";
+import { BLOCK_BALLOT_CONTRACT_ADDRESS } from '@/pages/_app.js';
+import blockballotABI from "@/Contract/blockballot.json";
 
 const theme = {
   colors: COLORS
@@ -98,8 +102,33 @@ const VoteButton = styled.button`
   }
 `;
 
-
 const CandidatesComponent = ({candidate}) => {
+  const signer = useSigner();
+
+  const handleVoting = async () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+
+// MetaMask requires requesting permission to connect users accounts
+await provider.send("eth_requestAccounts", []);
+
+// The MetaMask plugin also allows signing transactions to
+// send ether and pay to change state within the blockchain.
+// For this, you need the account signer...
+const signer = provider.getSigner()
+
+  const contract = new ethers.Contract(BLOCK_BALLOT_CONTRACT_ADDRESS, blockballotABI, signer);
+  if(!signer) {return};
+
+  const electionType = candidate.candidateData.office === "President of the United States" ? "Primary" : "General";
+  const index = await contract.getIndex(electionType, candidate.candidateData.name, candidate.candidateData.party);
+  console.log(index);
+  try {
+    await contract.vote(electionType, index);
+  } catch {
+    console.log("test");
+  }
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <MainContainer>
@@ -113,7 +142,7 @@ const CandidatesComponent = ({candidate}) => {
             <Divider />
             <MunicipalityLabel>{candidate.candidateData.municipality}</MunicipalityLabel>
             <ShortDescription>{candidate.candidateData.description}</ShortDescription>
-            <VoteButton>Vote for this candidate</VoteButton>
+            <VoteButton onClick={handleVoting}>Vote for this candidate</VoteButton>
           </Container>
           
         </SectionContainer>

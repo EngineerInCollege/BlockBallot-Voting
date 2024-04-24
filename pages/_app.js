@@ -18,7 +18,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 `
 
-export const BLOCK_BALLOT_CONTRACT_ADDRESS = "0x1Cc30302735a0Ce709C9fD6aa534924267f81EFd"
+export const BLOCK_BALLOT_CONTRACT_ADDRESS = "0x321EF2B5C3C61c060431A35417521CdAd30c651d"
 
 export default function App({ Component, pageProps }) {
   return (

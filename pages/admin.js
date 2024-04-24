@@ -5,6 +5,10 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { writeData } from '@/firebase/firebaseConfig';
 import Head from 'next/head';
+import { useSigner } from "@thirdweb-dev/react";
+import { ethers } from "ethers";
+import { BLOCK_BALLOT_CONTRACT_ADDRESS } from '@/pages/_app.js';
+import blockballotABI from "@/Contract/blockballot.json";
 
 const theme = {
     colors: COLORS
@@ -176,6 +180,7 @@ const AdminPage = () => {
     const [description, setDescription] = useState('');
     const [photoLink, setPhotoLink] = useState('');  
     const [success, setSuccess] = useState(false); 
+    const signer = useSigner();
 
   const handlePrimaryChange = () => {
     setShowPrimary(!showPrimary);
@@ -200,8 +205,26 @@ const AdminPage = () => {
             photoLink: photoLink,
         };
 
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+
+// MetaMask requires requesting permission to connect users accounts
+await provider.send("eth_requestAccounts", []);
+
+// The MetaMask plugin also allows signing transactions to
+// send ether and pay to change state within the blockchain.
+// For this, you need the account signer...
+const signer = provider.getSigner()
+
+        const contract = new ethers.Contract(BLOCK_BALLOT_CONTRACT_ADDRESS, blockballotABI, signer);
+        const isAdmin = await contract.giveAdmin();
+        if(!signer || !isAdmin) {return};
+
         // Write candidate data to the Firebase database
         await writeData(name, candidateData);
+
+        // Write candidate data to the contract
+        const electionType = office === "President of the United States" ? "Primary" : "General";
+        await contract.addCandidate(electionType, name, party);
 
         // Reset form fields
         setName('');
@@ -217,6 +240,8 @@ const AdminPage = () => {
         }, 3000);
 
         console.log("Candidate added successfully!");
+        setShowGeneral(false);
+        setShowPrimary(false);
     } catch (error) {
         console.error("Error adding candidate:", error);
     }
