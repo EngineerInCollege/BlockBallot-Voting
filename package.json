@@ -9,16 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@thirdweb-dev/react": "^4.6.7",
-    "@thirdweb-dev/wallets": "^2.5.7",
+    "@thirdweb-dev/react": "^4.6.8",
+    "@thirdweb-dev/sdk": "^4.0.69",
+    "ethers": "^5.7.2",
     "express": "^4.19.2",
     "firebase": "^10.10.0",
     "next": "^14.1.4",
     "react": "^18",
     "react-confetti": "^6.1.0",
     "react-dom": "^18",
-    "react-query": "^3.39.3",
-    "styled-components": "^6.1.8",
-    "thirdweb": "^5.10.0"
+    "styled-components": "^6.1.8"
   }
 }

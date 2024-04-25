@@ -55,7 +55,6 @@ const InfoContainer = styled.div`
 `
 
 export default function Home() {
-  const [user, setUser] = useState(null);
 
   return (
     <>
@@ -66,7 +65,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ThemeProvider theme={theme}>
-      <Navbar user={user} setUser={setUser}/>
+      <Navbar/>
       <ParentContainer>
       <BackgroundImage>
           <OverlayText>

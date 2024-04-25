@@ -1,14 +1,6 @@
 import { createGlobalStyle } from 'styled-components'
 import { StateContext } from '@/context/StateContext'
-import { ThirdwebProvider, metamaskWallet, 
-  coinbaseWallet, walletConnect, localWallet } from "@thirdweb-dev/react";
-  import {
-    QueryClient,
-    QueryClientProvider,
-    useQuery,
-  } from 'react-query';  
-
-  const queryClient = new QueryClient();
+import { ThirdwebProvider } from "@thirdweb-dev/react";
 
 export const GlobalStyle = createGlobalStyle`
   *{
@@ -18,7 +10,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 `
 
-export const BLOCK_BALLOT_CONTRACT_ADDRESS = "0x321EF2B5C3C61c060431A35417521CdAd30c651d"
+export const BLOCK_BALLOT_CONTRACT_ADDRESS = "0x290F6bCeFCD8eb035ac62E802d60e1B82cc35fDa"
 
 export default function App({ Component, pageProps }) {
   return (
@@ -26,15 +18,8 @@ export default function App({ Component, pageProps }) {
       <GlobalStyle />
 
       <StateContext>
-        <ThirdwebProvider
-            activeChain="ethereum" clientId="46279898771d4e37ac4001efde13bd0f"
-            supportedWallets={[ metamaskWallet({ recommended: true }), coinbaseWallet(),walletConnect(),
-              localWallet(),
-            ]}
-        >
-          <QueryClientProvider client={queryClient}>
+        <ThirdwebProvider clientId="46279898771d4e37ac4001efde13bd0f">
           <Component {...pageProps} />
-          </QueryClientProvider>
         </ThirdwebProvider>
       </StateContext>
     </>

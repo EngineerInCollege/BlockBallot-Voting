@@ -171,6 +171,10 @@ const SuccessMessage = styled.p`
   color:  ${props => props.theme.colors.feature};
 `;
 
+const ErrorMessage = styled.p`
+  color: red;
+`;
+
 const AdminPage = () => {
     const [showPrimary, setShowPrimary] = useState(false);
     const [showGeneral, setShowGeneral] = useState(false);
@@ -182,6 +186,7 @@ const AdminPage = () => {
     const [photoLink, setPhotoLink] = useState('');  
     const [success, setSuccess] = useState(false); 
     const signer = useSigner();
+    const [fail, setFail] = useState({ status: false, message: '' });
 
   const handlePrimaryChange = () => {
     setShowPrimary(!showPrimary);
@@ -206,19 +211,20 @@ const AdminPage = () => {
             photoLink: photoLink,
         };
 
-        const provider = new ethers.providers.Web3Provider(window.ethereum)
-
-// MetaMask requires requesting permission to connect users accounts
-await provider.send("eth_requestAccounts", []);
-
-// The MetaMask plugin also allows signing transactions to
-// send ether and pay to change state within the blockchain.
-// For this, you need the account signer...
-const signer = provider.getSigner()
-
         const contract = new ethers.Contract(BLOCK_BALLOT_CONTRACT_ADDRESS, blockballotABI, signer);
         const isAdmin = await contract.giveAdmin();
-        if(!signer || !isAdmin) {return};
+
+        if(!signer || !isAdmin) {
+          return;
+        }
+
+        if(!name || !party || !municipality || !description || !photoLink) {
+          setFail({ status: true, message: "Please fill out all fields." });
+          setTimeout(() => {
+            setFail(false);
+          }, 3000);
+          return;
+        }
 
         // Write candidate data to the Firebase database
         await writeData(name, candidateData);
@@ -245,6 +251,14 @@ const signer = provider.getSigner()
         setShowPrimary(false);
     } catch (error) {
         console.error("Error adding candidate:", error);
+        if(!signer || !isAdmin) {
+          setFail({ status: true, message: "You must be the admin to add a candidate." });
+        } else {
+          setFail({ status: true, message: "There was an error when trying to add a candidate." });
+        }
+        setTimeout(() => {
+          setFail(false);
+        }, 3000);
     }
   }
 
@@ -277,7 +291,7 @@ const signer = provider.getSigner()
              <InputContainer>
               <InputGroup>
                 <Input borderRadius="1vw 0 0 1vw" rightBorderVisibility="none" placeholder="Name" onChange={(e) => setName(e.target.value)} />
-                <Input placeholder="Party" onChange={(e) => setParty(e.target.value)} />
+                <Input placeholder="Party" rightBorderVisibility="none" onChange={(e) => setParty(e.target.value)} />
                 <Input placeholder="Office" onChange={(e) => setOffice(e.target.value)} />
                 <Input borderRadius="0 1vw 1vw 0" leftBorderVisibility="none" placeholder="Municipality" onChange={(e) => setMunicipality(e.target.value)} />
               </InputGroup>
@@ -300,6 +314,7 @@ const signer = provider.getSigner()
                 <AddCandidateButton onClick={handleAddCandidate}>Add Candidate</AddCandidateButton>
             )}
             {success && <SuccessMessage>Candidate added successfully!</SuccessMessage>}
+            {fail.status && <ErrorMessage>{fail.message}</ErrorMessage>}
           </InputContainer>
         </AddCandidateContainer>
       </MainContainer>

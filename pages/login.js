@@ -6,25 +6,11 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useRouter } from "next/router"
 import Head from 'next/head';
-import { createThirdwebClient } from "thirdweb";
 import { ethers } from "ethers";
-import { useSigner, useAddress } from "@thirdweb-dev/react";
-import { metamaskWallet, 
-  coinbaseWallet, localWallet } from "@thirdweb-dev/react";
+import { useSigner, ConnectWallet, ConnectEmbed } from "@thirdweb-dev/react";
 import { BLOCK_BALLOT_CONTRACT_ADDRESS } from '@/pages/_app.js';
 import blockballotABI from "@/Contract/blockballot.json";
 import { lightTheme } from "@thirdweb-dev/react";
-
-import {
-  ThirdwebProvider,
-  ConnectButton,
-  ConnectEmbed,
-} from "thirdweb/react";
-import {
-  createWallet,
-  walletConnect,
-  inAppWallet,
-} from "thirdweb/wallets";
 
 const theme = {
     colors: COLORS
@@ -53,7 +39,7 @@ const PrivateAndLoginContainer = styled.div`
   background-color: white;
   box-shadow: 0 1vw 2vw rgba(0, 0, 0, 0.1);
   padding: 1vw;
-  padding-bottom: 10vw;
+  padding-bottom: 5vw;
 `
 
 const LoginContainer = styled.div`
@@ -108,7 +94,7 @@ const ErrorMessage = styled.div`
 `
 
 const LoginButton = styled.button`
-  padding: 1vw 3vw;
+  padding: 1vw 2vw;
   background-color: ${props => props.theme.colors.feature};
   color: #fff;
   border: none;
@@ -119,7 +105,6 @@ const LoginButton = styled.button`
 
   &:hover {
     background-color: ${props => props.theme.colors.main};
-    transform: translateY(-2px);
   }
 
   &:after {
@@ -145,7 +130,7 @@ const ConnectContainer = styled.div`
   align-items: center;
   padding: 2vw;
   flex-direction: column;
-  gap: .5vw;
+  gap: 1vw;
 `
 
 const customTheme = lightTheme({
@@ -155,77 +140,10 @@ const customTheme = lightTheme({
   },
 });
 
-// const Login = () => {
-//   const [publicKey, setPublicKey] = useState('');
-//   const [showKey, setShowKey] = useState(false);
-//   const [error, setError] = useState(false);
-
-//   const router = useRouter();
-
-//   const handlePublicKeyChange = (event) => {
-//     setPublicKey(event.target.value);
-//   };
-
-//   const handleShowKeyToggle = () => {
-//     setShowKey(!showKey);
-//   };
-
-//   const handleLogin = () => {
-//     // Validation logic goes here
-//     if (publicKey.length === 0) {
-//       setError(true);
-//       return;
-//     }
-
-//     // Mock validation for demonstration
-//     if (publicKey === '123') {
-//       router.push('voting');
-//     } else if (publicKey === 'admin') { //Hard-coded for now
-//       router.push('admin');
-//     } else {
-//       setError(true);
-//       setPublicKey('');
-//     }
-//   };
-
-//   return (
-//     <>
-//     <LoginContainer>
-//       <InputContainer>
-//       <LoginInput
-//         type={showKey ? 'text' : 'password'}
-//         value={publicKey}
-//         onChange={handlePublicKeyChange}
-//         placeholder="0x"
-//       />
-//       <ShowHideButton onClick={handleShowKeyToggle}>
-//         {showKey ? <img src="/hide-password.png" alt="Hide password" /> : <img src="/show-password.png" alt="Show password" />}
-//       </ShowHideButton>
-//       <br />
-//       </InputContainer>
-//       {error && <ErrorMessage>Invalid public key. Please try again.</ErrorMessage>}
-//       <LoginButton onClick={handleLogin}>Login</LoginButton>
-//     </LoginContainer>
-//     </>
-//   );
-// };
-
-const client = createThirdwebClient({
-  clientId: "46279898771d4e37ac4001efde13bd0f",
-})
-
-const wallets = [
-  createWallet("io.metamask"),
-  createWallet("com.coinbase.wallet"),
-  walletConnect(),
-];
-
 const LoginPage = () => {
-  const [user, setUser] = useState(null);
   const router = useRouter();
   const signer = useSigner();
   const [admin, setAdmin] = useState(false);
-  const address = useAddress(); //?
 
   const handleRouting = (location) => {
         if (location === "admin") {router.push('admin');}
@@ -234,8 +152,6 @@ const LoginPage = () => {
 
   useEffect(() => {    
     const checkIfAdmin = async () => {
-      console.log(signer);
-      console.log(address);
       if(!signer) {return};
       const contract = new ethers.Contract(BLOCK_BALLOT_CONTRACT_ADDRESS, blockballotABI, signer);
       const isAdmin = await contract.giveAdmin();
@@ -252,13 +168,6 @@ const LoginPage = () => {
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link rel="icon" href="/favicon.ico" />
     </Head>
-
-    <ThirdwebProvider
-     activeChain="ethereum" clientId="46279898771d4e37ac4001efde13bd0f"
-     supportedWallets={[ metamaskWallet({ recommended: true }), coinbaseWallet(),walletConnect(),
-       localWallet(),
-     ]}
-    >
     <ThemeProvider theme={theme}>
     <Navbar/>
     <MainContainer>
@@ -267,15 +176,14 @@ const LoginPage = () => {
         <Divider />
         <LoginLabel>Please connect to your wallet below</LoginLabel>
         <ConnectContainer>
-         <ConnectEmbed client={client} wallets={wallets} theme={customTheme}/>
+         <ConnectWallet theme={customTheme}/>
         {admin && <LoginButton onClick={() => handleRouting("admin")}>Admin page</LoginButton>}
-        {signer && <LoginButton onClick={() => handleRouting("voting")}>Go vote!</LoginButton>}
+        {signer && <LoginButton onClick={() => handleRouting("voting")}>Go vote</LoginButton>}
         </ConnectContainer>
       </PrivateAndLoginContainer>
     </MainContainer>
     <Footer />
     </ThemeProvider>
-    </ThirdwebProvider>
     </>
   );
 };

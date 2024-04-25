@@ -2,20 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import styled, { ThemeProvider} from 'styled-components';
 import { useRouter } from "next/router"
 import { COLORS } from "@/pages/_app.js";
-import { createThirdwebClient } from "thirdweb";
 import { lightTheme } from "@thirdweb-dev/react";
 import { useSigner, useAddress } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
 
 import {
-  ThirdwebProvider,
-  ConnectButton,
-} from "thirdweb/react";
-import {
-  createWallet,
-  walletConnect,
-  inAppWallet,
-} from "thirdweb/wallets";
+  ConnectWallet,
+} from "@thirdweb-dev/react";
 
 const theme = {
   colors: COLORS
@@ -153,43 +146,16 @@ const Greetings = styled.div`
   position: relative;
 `;
 
-const client = createThirdwebClient({
-  clientId: "46279898771d4e37ac4001efde13bd0f",
-})
-
-const wallets = [
-  createWallet("io.metamask"),
-  createWallet("com.coinbase.wallet"),
-  walletConnect(),
-];
-
 const Navbar = ({user, setUser}) => {
 const router = useRouter();
-// const signer = useSigner();
-const [signer, setSigner] = useState();
+const signer = useSigner();
 
 function goToWantedPage(string) {
 router.push(`${string}`);
 }
 
-useEffect(() => {
-  const asyncFunc = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
-  
-  // MetaMask requires requesting permission to connect users accounts
-  await provider.send("eth_requestAccounts", []);
-  
-  // The MetaMask plugin also allows signing transactions to
-  // send ether and pay to change state within the blockchain.
-  // For this, you need the account signer...
-  setSigner(provider.getSigner());
-  }
-  asyncFunc();
-}, [signer])
-
   return (
     <ThemeProvider theme={theme}>
-    <ThirdwebProvider>
     <Container>
       <Content>
         <LogoBox onClick={() => goToWantedPage("/")}>
@@ -205,16 +171,9 @@ useEffect(() => {
         </UserContainer>
       </Content>
       <ConnectContainer>
-        <ConnectButton
-            client={client}
-            wallets={wallets}
-            theme={customTheme}
-            connectModal={{ size: "wide" }}
-            modalTitle="BlockBallot Login"
-          />
+      <ConnectWallet theme={customTheme}/>
       </ConnectContainer>
     </Container>
-    </ThirdwebProvider>
     </ThemeProvider>
   );
 }

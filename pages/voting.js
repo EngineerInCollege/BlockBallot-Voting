@@ -3,6 +3,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import React, { useState, useEffect } from 'react';
 import Navbar from "@/components/Navbar";
 import Candidates from "@/components/Candidates";
+import CurrentWinner from "@/components/CurrentWinner";
 import { COLORS } from "@/pages/_app.js";
 import Footer from "@/components/Footer";
 import { fetchRecentCandidates } from "@/firebase/firebaseConfig";
@@ -77,7 +78,6 @@ const ConfettiContainer = styled.div`
 `
 
 const VotingPage = () => {
-  const [user, setUser] = useState(null);
   const [candidates, setCandidates] = useState([]);
   const [votingError, setVotingError] = useState(false);
   const [votePassed, setVotePassed] = useState(false);
@@ -130,6 +130,7 @@ const VotingPage = () => {
         </ConfettiContainer>
       }
       <Navbar/>
+      <CurrentWinner/>
       <ParentContainer>
       <BackgroundImage>
           <OverlayText>
