@@ -12,7 +12,8 @@ an about, their name, party affiliation, office they're running for, municipalit
 and a short description of their candidacy. It also includes an image of the
 candidate and a button to vote for them. To vote for the canddiate, a call
 to the contract is made to first find the index of the candidate and
-then write a vote to that canddiate on the contract.
+then write a vote to that canddiate on the contract. A user can only
+vote once for each election.
 */
 
 const theme = {
