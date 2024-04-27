@@ -9,7 +9,15 @@ import Footer from "@/components/Footer";
 import { fetchRecentCandidates } from "@/firebase/firebaseConfig";
 import Popup from "@/components/Popup";
 import Confetti from 'react-confetti';
-import { redirect } from "next/dist/server/api-utils";
+
+/*
+This page is the core interface for users to participate in the voting process within the BlockBallot
+application. Each voting section (primary and general) displays a list of candidates available for voting.
+The list of candidates is fetched from the Firebase database. This page also manages voting-related states
+such as voting errors, successful votes, and the visibility of the confetti animation upon a successful
+vote. It includes event handlers to manage voting errors, vote scucess, and the closing of popup
+notifications.
+*/
 
 const theme = {
   colors: COLORS
@@ -145,6 +153,7 @@ const VotingPage = () => {
             <Candidates candidate={candidate} onVoteError={handleVotingError} onVotePass={handleVoteSuccess}/>
           ))}
         </CandidatesContainer>
+        <Divider/>
         <ElectionLabel>General Elections</ElectionLabel>
         <CandidatesContainer>
           {generalCandidates.map(candidate => (

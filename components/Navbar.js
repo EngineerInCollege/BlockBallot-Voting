@@ -1,14 +1,15 @@
-import React, { useState, useRef, useEffect } from 'react';
 import styled, { ThemeProvider} from 'styled-components';
 import { useRouter } from "next/router"
 import { COLORS } from "@/pages/_app.js";
 import { lightTheme } from "@thirdweb-dev/react";
-import { useSigner, useAddress } from "@thirdweb-dev/react";
-import { ethers } from "ethers";
+import { useSigner } from "@thirdweb-dev/react";
+import { ConnectWallet } from "@thirdweb-dev/react";
 
-import {
-  ConnectWallet,
-} from "@thirdweb-dev/react";
+/*
+This component is a navigation bar used for navigating through the application. It
+includes a logo, user authentication status, and options for
+signing in or navigating to the voting page.
+*/
 
 const theme = {
   colors: COLORS
@@ -16,6 +17,7 @@ const theme = {
 
 const Container = styled.div`
   position: relative;
+  font-family: 'Helvetica';
 `;
 
 const Content = styled.div`
@@ -142,11 +144,7 @@ const customTheme = lightTheme({
   },
 });
 
-const Greetings = styled.div`
-  position: relative;
-`;
-
-const Navbar = ({user, setUser}) => {
+const Navbar = () => {
 const router = useRouter();
 const signer = useSigner();
 
@@ -159,7 +157,7 @@ router.push(`${string}`);
     <Container>
       <Content>
         <LogoBox onClick={() => goToWantedPage("/")}>
-            <span>Block</span>Ballot
+            <span>Block</span>Ballot  
         </LogoBox>
         <Separator/>
         <UserContainer>

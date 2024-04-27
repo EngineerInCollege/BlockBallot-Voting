@@ -8,6 +8,14 @@ import { COLORS } from "@/pages/_app.js";
 import LoginToVote from "@/components/LoginToVote";
 import Footer from "@/components/Footer";
 
+/*
+The homepage of the BlockBallot platform, designed for decentralized voting. It
+incorporates elements such as a navigation bar, voting information section, login
+section, and a footer. This page's purpose is to eventually navigate the user to
+the login page, where they can connect to their wallet and interact with the
+voting platform.
+*/
+
 const theme = {
   colors: COLORS
 };

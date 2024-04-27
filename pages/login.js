@@ -7,10 +7,19 @@ import Footer from "@/components/Footer";
 import { useRouter } from "next/router"
 import Head from 'next/head';
 import { ethers } from "ethers";
-import { useSigner, ConnectWallet, ConnectEmbed } from "@thirdweb-dev/react";
+import { useSigner, ConnectEmbed } from "@thirdweb-dev/react";
 import { BLOCK_BALLOT_CONTRACT_ADDRESS } from '@/pages/_app.js';
 import blockballotABI from "@/Contract/blockballot.json";
 import { lightTheme } from "@thirdweb-dev/react";
+
+/*
+This page is for user authentication and navigation within the BlockBallot application. The
+main content area of the login page has a container for connecting to your wallet. Also,
+conditional rendering logic displays different login buttons based on the user's status.
+if the user is an admin, an "Admin page" button is displayed, enabling access to administrative
+features. If the user has successfully connected their wallet (signer), a "Go vote" button
+is rendered, directing the user to the voting page.
+*/
 
 const theme = {
     colors: COLORS
@@ -42,59 +51,14 @@ const PrivateAndLoginContainer = styled.div`
   padding-bottom: 5vw;
 `
 
-const LoginContainer = styled.div`
-  margin-top: 3vw;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  align-items: center;
-`;
-
 const LoginLabel = styled.h2`
   color: ${props => props.theme.colors.main};
   padding-left: 5vw;
   padding-top: 3vw;
 `
 
-const InputContainer = styled.div`
-  display: flex;
-  flex: 1;
-  width: 75%;
-  gap: 1vw;
-`
-
-const LoginInput = styled.input`
-  flex: 1;
-  padding: 1vw;
-  margin-bottom: 2vw;
-  border-radius: 1vw;
-  border: 0.1vw solid ${props => props.theme.colors.main};
-
-  &:focus {
-    border-color: gray;
-    outline: none;
-  }
-`;
-
-const ShowHideButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  margin-bottom: 1.5vw;
-
-  img {
-    width: 3vw;
-    height: 3vw;
-  }
-`;
-
-const ErrorMessage = styled.div`
-  color: red;
-  padding: 2vw;
-`
-
 const LoginButton = styled.button`
-  padding: 1vw 2vw;
+  padding: 1vw 3vw;
   background-color: ${props => props.theme.colors.feature};
   color: #fff;
   border: none;
@@ -176,7 +140,7 @@ const LoginPage = () => {
         <Divider />
         <LoginLabel>Please connect to your wallet below</LoginLabel>
         <ConnectContainer>
-         <ConnectWallet theme={customTheme}/>
+         <ConnectEmbed theme={customTheme}/>
         {admin && <LoginButton onClick={() => handleRouting("admin")}>Admin page</LoginButton>}
         {signer && <LoginButton onClick={() => handleRouting("voting")}>Go vote</LoginButton>}
         </ConnectContainer>

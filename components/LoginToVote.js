@@ -3,6 +3,11 @@ import styled, { ThemeProvider } from 'styled-components';
 import { COLORS } from "@/pages/_app.js";
 import { useRouter } from "next/router"
 
+/*
+This component is a guide for users on how to vote in the system. It presents information on the
+voting process and prompts users to sign in with their public key in order to vote securely.
+*/
+
 const theme = {
   colors: COLORS
 };

@@ -2,6 +2,12 @@ import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import { COLORS } from "@/pages/_app.js";
 
+/*
+This component represents a section of a webpage dedicated to explaining the features of a
+voting and elections platform. It has three containers, each highlighting a key feature of
+the platform: security, transparency, and decentralization.
+*/
+
 const theme = {
   colors: COLORS
 };

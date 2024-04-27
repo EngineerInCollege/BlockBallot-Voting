@@ -6,6 +6,15 @@ import { ethers } from "ethers";
 import { BLOCK_BALLOT_CONTRACT_ADDRESS } from '@/pages/_app.js';
 import blockballotABI from "@/Contract/blockballot.json";
 
+/*
+This component is a candidate display feature for an election system. It displays
+an about, their name, party affiliation, office they're running for, municipality,
+and a short description of their candidacy. It also includes an image of the
+candidate and a button to vote for them. To vote for the canddiate, a call
+to the contract is made to first find the index of the candidate and
+then write a vote to that canddiate on the contract.
+*/
+
 const theme = {
   colors: COLORS
 };
@@ -63,6 +72,7 @@ const OfficeLabel = styled.div`
 const ShortDescription = styled.p`
   color: ${props => props.theme.colors.main};
   padding: 1vw;
+  font-size: 1vw;
 `;
 
 const Container = styled.div`
@@ -94,6 +104,7 @@ const VoteButton = styled.button`
   color: #fff;
   border: none;
   border-radius: 0.5vw;
+  font-size: 1vw;
   margin-left: 1vw;
   padding: 0.5vw 1vw;
   cursor: pointer;

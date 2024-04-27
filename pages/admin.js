@@ -10,6 +10,18 @@ import { ethers } from "ethers";
 import { BLOCK_BALLOT_CONTRACT_ADDRESS } from '@/pages/_app.js';
 import blockballotABI from "@/Contract/blockballot.json";
 
+/*
+This is an admin page for adding candidates to a voting platform. It uses Firebase for
+data management. The page includes form inputs for entering candidate information such as name,
+party, office, municipality, description, and a photo link. Users can toggle between adding
+candidates for primary and general elections. Upon submitting the candidate details, the component
+validates the input fields, writes candidate data to both Firebase Realtime Database and the smart
+contract on the Ethereum blockchain. It also provides error handling for various scenarios, such
+as incompolete form submissions or authenticiation failures. Regardless, tihs page is inentionally
+made for the admin, so not all error handling scenarios are considered. This page also displays
+success and error messages to notify users of the oucome of their actions.
+*/
+
 const theme = {
     colors: COLORS
 };

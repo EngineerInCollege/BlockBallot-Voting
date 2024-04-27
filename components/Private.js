@@ -2,6 +2,11 @@ import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import { COLORS } from "@/pages/_app.js";
 
+/*
+This component is a section of a webpage designed to emphasize the importance of keeping private keys secure.
+It features a header, an image container, a label container, and a short description.
+*/
+
 const theme = {
   colors: COLORS
 };

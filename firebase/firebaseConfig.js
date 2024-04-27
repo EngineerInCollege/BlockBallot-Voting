@@ -3,13 +3,10 @@ import { getAuth } from "firebase/auth";
 import { getDatabase, ref, set, get } from "firebase/database";
 
 /* This code sets up a Firebase app and exports it as a default module. It initializes the
-* Firebase app, the authentication, and database services using Firebase's modular SDK. The
-* writeUserData function is defined to write user data to the Firebase Realtime Database. It
-* takes user information such as the user ID, name, email, and recent search history as parameters
-* and stores them under the user's ID node in the database. The fetchRecentSearches function is
-* defined to retrieve recent searches for a given user ID from the database. It returns the
-* recent searches if they exist, otherwise returns null. The module exports the auth service
-* for authentication purposes.
+* Firebase database services using Firebase's modular SDK. It's
+used to write the store the added candidates for each election ONLY for display purposes.
+This database stores the name, description, municipality, office, party, and link to their
+photo from an image URL. This information is not stored on the blockchain to save gas fees.
 */
 
 const firebaseConfig = {

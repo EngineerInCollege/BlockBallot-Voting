@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import { useRouter } from "next/router";
 
 /* This is the footer component for the website. It includes sections for the logo, contact
-* info, sign-up, and navigation links to destinations and interests. Each section is styled
-* seperately for control over styling.
+* info, and sign-up.
 */
 
 const FooterContainer = styled.footer`
@@ -63,21 +62,6 @@ const Footer = () => {
   function goToWantedPage(string) {
     router.push(`${string}`);
   }
-
-  const handleGoogle = async () => {
-    try {
-      const provider = new GoogleAuthProvider();
-      const result = await signInWithPopup(auth, provider);
-      setUser(result.user);
-      localStorage.setItem('user', JSON.stringify(result.user)); // Save user data to local storage
-        
-      const { uid, displayName, email } = result.user;
-      writeUserData(uid, displayName, email);
-      
-    } catch (error) {
-      console.error('Error signing in with Google:', error);
-    }
-  };  
 
   return (
     <FooterContainer>

@@ -1,6 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
+/*
+This component is a simple popup or modal dialog box used to display messages or notifications
+to the user. It features a customizable message area and a button for closing the popup.
+*/
+
 const PopupContainer = styled.div`
     position: fixed;
     top: 50%;
