@@ -106,6 +106,7 @@ contract Ballot{
         return candidateIndexMapping[candidateKey];
     }
 
+    // Returns vote count of a candidate
     function getResults (string memory electionType, uint candidateIndex) public view returns (uint) {
         require((bytes(electionType).length > 0) && (compareStrings(electionType, "General") || compareStrings(electionType, "Primary")), "Please add a candidate party");
         
