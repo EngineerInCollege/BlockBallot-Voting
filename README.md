@@ -1,40 +1,20 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# BlockBallot
 
-## Getting Started
+![BlockBallot Homepage](https://github.com/user-attachments/assets/97487683-d5a7-48a2-9ecb-7f0752aa717d)
 
-First, run the development server:
+BlockBallot is a decentralized voting platform showcasing the security, transparency, and potential of blockchain technology in real-world solutions. Developed using Solidity and built on Ethereum to process and store election data.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Visit the Website
+Check out the live site: <a href="https://blockballot-voting.vercel.app/" target="_blank">BlockBallot</a>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
+- Decentralized voting system for secure and transparent elections.
+- Built using Solidity and Ethereum.
+- Real-world application of blockchain technology.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Technologies Used
+- Solidity
+- JavaScript
+- React
+- Styled Components
+- Node.js
