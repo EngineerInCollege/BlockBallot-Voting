@@ -7,6 +7,9 @@ BlockBallot is a decentralized voting platform showcasing the security, transpar
 ## Visit the Website
 Check out the live site: <a href="https://blockballot-voting.vercel.app/" target="_blank">BlockBallot</a>
 
+## Learn Blockchain
+Check out this guide I wrote to learning blockchain: [View the PDF](./public/guide.pdf)
+
 ## Features
 - Decentralized voting system for secure and transparent elections.
 - Built using Solidity and Ethereum.
